@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./app/models");
+
 // // Si necesitas recrear las tablas desde cero (¡cuidado, borra los datos!):
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");
@@ -72,15 +73,28 @@ require("./app/routes/peliculas.route")(app);
 
 // Set port, listen for requests
 const PORT = process.env.PORT || 8081;
+
+// --- MODIFICACIÓN AQUÍ ---
+// Levantamos el servidor INMEDIATAMENTE para que el mensaje salga primero
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});
+
+// Y dejamos que la DB se sincronice en segundo plano
 db.sequelize
   .sync()
   .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}.`);
-    });
+    console.log("Base de datos sincronizada correctamente.");
   })
   .catch(err => {
     console.error("Unable to connect to the database:", err);
   });
 
 
+
+
+
+
+
+
+  
