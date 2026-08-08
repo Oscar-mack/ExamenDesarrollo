@@ -73,8 +73,7 @@ require("./app/routes/peliculas.route")(app);
 // Set port, listen for requests
 const PORT = process.env.PORT || 8081;
 db.sequelize
-  .query('ALTER TABLE "peliculas" DROP CONSTRAINT IF EXISTS "peliculas_tipo_check";')
-  .then(() => db.sequelize.sync())
+  .sync()
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}.`);
